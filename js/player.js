@@ -1,12 +1,12 @@
 class Player {
-    constructor(ctx, posX, posY, image, keys, gameHeight, gameWidth) {
+    constructor(ctx, posX, posY, image, keys, gameHeight, gameWidth, posY0) {
         this.ctx = ctx,
             this.posX = posX,
-            this.posY = 570,
-            this.height = 707 * 1 / 8,
-            this.width = 587 * 1 / 8,
+            this.posY = posY,
+            this.height = 88,
+            this.width = 73,
 
-            this.posY0 = 570,
+            this.posY0 = posY0,
             this.image = new Image(),
             this.image.src = image,
 
@@ -20,32 +20,29 @@ class Player {
             this.keyState = {
                 keyLeft: false,
                 keyRight: false
-            },
-            this.friction = 0.98
+            }
     }
 
     draw() {
         this.ctx.drawImage(this.image, this.posX, this.posY, this.width, this.height)
     }
 
-    move() {
-        if (this.posY <= this.posY0) {
+    move(posY0) {
+        if (this.posY < posY0 - 88 + 5) {
             this.posY += this.vy;
             this.vy += this.gravity;
         } else {
+            // this.posY += this.vy;
+            // this.vy += this.gravity;
             this.vy = 1;
-            this.posY = this.posY0;
+            this.posY = posY0 - 88 + 5;
         }
-
         if (this.keyState.keyLeft) {
             this.posX-=this.vx;
         }
-
         if(this.keyState.keyRight) {
             this.posX+=this.vx;
         }
-        
-
     }
 
     setListeners() {
@@ -60,8 +57,6 @@ class Player {
             }
         });
 
-        
-
         document.addEventListener('keydown', (e) => {
             e.preventDefault();
             if (e.keyCode === 37) {
@@ -71,8 +66,6 @@ class Player {
                 this.keyState.keyRight = true;
                 console.log(this.keyState.keyRight);
             }
-
- 
         });
 
         document.addEventListener('keyup', (e) => {
@@ -85,23 +78,6 @@ class Player {
                 console.log(this.keyState.keyRight);
             }
         });
-
-
-        
-
-        // document.addEventListener('keydown', (e => {
-        //     switch (e.keyCode) {
-        //         case this.keys.RIGHT_ARROW:
-        //             this.posX += this.vx;
-        //             // this.vx += 10;
-        //             break;
-        //         case this.keys.LEFT_ARROW:
-        //             this.posX -= this.vx;
-        //             break;
-
-        //     }
-        // }));
-
     }
 
 }

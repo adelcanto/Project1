@@ -5,6 +5,7 @@ const Game = {
     height: undefined,
     fps: 60,
     tilesLength: 128 * 2 / 3,
+    posY0: 650,
     playerKeys: {
         LEFT_ARROW: 37,
         UP_ARROW: 38,
@@ -12,13 +13,6 @@ const Game = {
         DOWN_ARROW: 40,
         SPACE_BAR: 32
     },
-    // tiles: [],
-
-    // tilesArrangement: [
-    //     [1, 0, 'img/tiles/17.png'],
-    //     [1, 1, 'img/tiles/17.png'],
-    //     [1, 4, 'img/tiles/17.png'],
-    // ],
 
     init: function () {
         this.canvas = document.getElementById('canvas');
@@ -31,7 +25,6 @@ const Game = {
     },
 
     start: function () {
-
         this.setElements();
         this.interval = setInterval(() => {
             this.clear();
@@ -46,6 +39,7 @@ const Game = {
 
     setElements: function () {
         this.background = new Background(this.ctx, this.width, this.height);
+        this.platform = new Platform(this.ctx, 100, 650, this.tilesLength * 3, 50);
         this.tiles = [
             this.tileGenerator(1, 0, 'img/tiles/17.png'),
             this.tileGenerator(1, 1, 'img/tiles/17.png'),
@@ -87,23 +81,38 @@ const Game = {
 
 
         ];
-        this.player = new Player(this.ctx, this.tilesLength, this.height - this.tilesLength * 2 - 80, "img/character/Idle (1).png", this.playerKeys, this.height, this.width);
 
+        this.player = new Player(this.ctx, 105, 270, "img/character/Idle (1).png", this.playerKeys, this.height, this.width, this.posY0 - 88 + 5); // 670 - 88 + 5 (PosY0 - player.height + ajuste por borde)
+        ;
+        this.onPlatform(this.playerX, this.playerY, this.platformX, this.platformY, this.platformWidth);
     },
 
     drawAll: function () {
         this.background.draw();
         this.tiles.forEach(e => e.draw());
+        this.platform.draw();
         this.player.draw();
     },
 
     moveAll: function () {
-        this.player.move();
+        
+        if ((this.player.posX >= this.platform.posX) && (this.player.posX <= (this.platform.posX + this.platform.platWidth))) {
+            this.posY0 = this.platform.posY;
+            console.log(this.posY0);
+        } else {
+            this.posY0 = 0;
+            console.log(this.posY0)
+        }
+        this.player.move(this.posY0);
     },
 
     tileGenerator: function (tileRow, tileColumn, tileImage) {
         return new Tiles(this.ctx, this.tilesLength * tileColumn, this.height - this.tilesLength * tileRow, this.tilesLength, tileImage);
     },
 
-
+    onPlatform: function (playerX, playerY, platformX, platformY, platformWidth) { //recalcular la posY0 en función de la Y del obstáculo que se colisiona
+        if (playerX >= platformX && playerX <= platformX + platformWidth) {
+            console.log("sobre plataforma");
+        }
+    }
 }
