@@ -1,48 +1,62 @@
 class Player {
     constructor(ctx, posX, posY, image, keys, gameHeight, gameWidth, posY0) {
-        this.ctx = ctx,
-            this.posX = posX,
-            this.posY = posY,
-            this.height = 88,
-            this.width = 73,
+        this.ctx = ctx;
+        this.posX = posX;
+        this.posY = posY;
+        this.height = 88;
+        this.width = 73;
 
-            this.posY0 = posY0,
-            this.image = new Image(),
-            this.image.src = image,
+        this.posY0 = posY0;
+        this.image = new Image();
+        this.image.src = image;
 
-            this.gameHeight = gameHeight,
-            this.gameWidth = gameWidth,
-            this.vx = 8,
-            this.vy = 1,
-            this.gravity = 0.3,
-            this.setListeners(),
-            this.keys = keys,
-            this.keyState = {
-                keyLeft: false,
-                keyRight: false
-            }
+        this.gameHeight = gameHeight;
+        this.gameWidth = gameWidth;
+        this.vx = 5;
+        this.vy = 0.4;
+        this.gravity = 0.3;
+        this.setListeners();
+        this.keys = keys;
+        this.keyState = {
+            keyLeft: false,
+            keyRight: false
+        };
+
+        this.frames = 10;
+        this.framesIndex = 0;
     }
 
-    draw() {
-        this.ctx.drawImage(this.image, this.posX, this.posY, this.width, this.height)
+    draw(framesCounter) {
+        // this.ctx.drawImage(this.image, this.posX, this.posY, this.width, this.height)
+        this.ctx.drawImage(
+            this.image,
+            this.framesIndex * (this.image.width / this.frames),
+            0,
+            (this.image.width / this.frames),
+            this.image.height,
+            this.posX,
+            this.posY,
+            this.width,
+            this.height
+        );
+        this.animate(framesCounter)
+
+
     }
 
-    move(posY0, vx, vy) {
-
-        if (this.posY < posY0 - 88 + 5) {
+    move(posY0) {
+        if (this.posY < posY0 - 88) {
             this.posY += this.vy;
             this.vy += this.gravity;
         } else {
-            // this.posY += this.vy;
-            // this.vy += this.gravity;
             this.vy = 1;
-            this.posY = posY0 - 88 + 5;
+            this.posY = posY0 - 88;
         }
         if (this.keyState.keyLeft) {
-            this.posX-=this.vx;
+            this.posX -= this.vx;
         }
-        if(this.keyState.keyRight) {
-            this.posX+=this.vx;
+        if (this.keyState.keyRight) {
+            this.posX += this.vx;
         }
     }
 
@@ -52,7 +66,7 @@ class Player {
                 case this.keys.UP_ARROW:
                     if (this.posY >= this.posY0) {
                         this.posY -= this.vy;
-                        this.vy -= 15;
+                        this.vy -= 12;
                     }
                     break;
             }
@@ -79,6 +93,13 @@ class Player {
                 console.log(this.keyState.keyRight);
             }
         });
+    }
+
+    animate(framesCounter) {
+        if (framesCounter%10 === 0) {
+            this.framesIndex++;
+            if (this.framesIndex > 9) this.framesIndex = 0;
+        }
     }
 
 }

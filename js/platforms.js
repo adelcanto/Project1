@@ -9,7 +9,7 @@ class Platform {
 
     draw() {
         this.ctx.fillRect(this.posX, this.posY, this.platWidth, this.platHeight);
-        this.ctx.fillStyle = "red";
+        this.ctx.fillStyle = "green"
     }
 
 }
