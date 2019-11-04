@@ -27,7 +27,8 @@ class Player {
         this.ctx.drawImage(this.image, this.posX, this.posY, this.width, this.height)
     }
 
-    move(posY0) {
+    move(posY0, vx, vy) {
+
         if (this.posY < posY0 - 88 + 5) {
             this.posY += this.vy;
             this.vy += this.gravity;
@@ -51,7 +52,7 @@ class Player {
                 case this.keys.UP_ARROW:
                     if (this.posY >= this.posY0) {
                         this.posY -= this.vy;
-                        this.vy -= 10;
+                        this.vy -= 15;
                     }
                     break;
             }
