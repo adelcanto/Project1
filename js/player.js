@@ -12,9 +12,9 @@ class Player {
 
             this.gameHeight = gameHeight,
             this.gameWidth = gameWidth,
-            this.vx = 5,
+            this.vx = 8,
             this.vy = 1,
-            this.gravity = 0.2,
+            this.gravity = 0.3,
             this.setListeners(),
             this.keys = keys,
             this.keyState = {
@@ -36,6 +36,15 @@ class Player {
             this.vy = 1;
             this.posY = this.posY0;
         }
+
+        if (this.keyState.keyLeft) {
+            this.posX-=this.vx;
+        }
+
+        if(this.keyState.keyRight) {
+            this.posX+=this.vx;
+        }
+        
 
     }
 
@@ -62,6 +71,8 @@ class Player {
                 this.keyState.keyRight = true;
                 console.log(this.keyState.keyRight);
             }
+
+ 
         });
 
         document.addEventListener('keyup', (e) => {
@@ -75,7 +86,8 @@ class Player {
             }
         });
 
-        console.log(this.keyState.keyRight);
+
+        
 
         // document.addEventListener('keydown', (e => {
         //     switch (e.keyCode) {
