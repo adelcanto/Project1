@@ -28,6 +28,7 @@ const Game = {
     start: function () {
         this.setElements();
         this.interval = setInterval(() => {
+            this.framesCounter++;
             this.clear();
             this.drawAll();
             this.moveAll();

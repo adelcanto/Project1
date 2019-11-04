@@ -96,7 +96,7 @@ class Player {
     }
 
     animate(framesCounter) {
-        if (framesCounter%10 === 0) {
+        if (framesCounter%8 === 0) {
             this.framesIndex++;
             if (this.framesIndex > 9) this.framesIndex = 0;
         }
