@@ -5,7 +5,8 @@ const Game = {
     height: undefined,
     fps: 60,
     tilesLength: 128 * 2 / 3,
-    posY0: 650,
+    posY0: 563,
+    charOnPlatform: false,
     playerKeys: {
         LEFT_ARROW: 37,
         UP_ARROW: 38,
@@ -41,11 +42,10 @@ const Game = {
 
     setElements: function () {
         this.background = new Background(this.ctx, this.width, this.height);
-        this.platform = [new Platform(this.ctx, 80, 650, this.tilesLength * 4, 1),
-            new Platform(this.ctx, 680, 650, this.tilesLength * 8, 1),
-            // new Platform(this.ctx,850, 565, this.tilesLength * 3, 1)
+        this.platform = [new Platform(this.ctx, 80, this.posY0, this.tilesLength * 4, 1),
+            new Platform(this.ctx, 680, this.posY0, this.tilesLength * 8, 1),
+            new Platform(this.ctx, 850, 460, this.tilesLength * 3, 1)
         ]
-
         this.tiles = [
             this.tileGenerator(1, 0, 'img/tiles/17.png'),
             this.tileGenerator(1, 1, 'img/tiles/17.png'),
@@ -87,11 +87,7 @@ const Game = {
 
 
         ];
-
-        this.player = new Player(this.ctx, 105, 270, "img/character/idelingKnight.png", this.playerKeys, this.height, this.width, this.posY0 - 88); // 670 - 88 + 5 (PosY0 - player.height + ajuste por borde)
-        ;
-        this.onPlatform(this.playerX, this.playerY, this.platformX, this.platformY, this.platformWidth);
-        console.log(this.player.posX);
+        this.player = new Player(this.ctx, 105, 270, "img/character/idelingKnight.png", this.playerKeys, this.height, this.width); // 670 - 88 + 5 (PosY0 - player.height + ajuste por borde)
     },
 
     drawAll: function () {
@@ -102,25 +98,32 @@ const Game = {
     },
 
     moveAll: function () {
-
-        this.platform.forEach(e => {
-            if ((this.player.posX >= e.posX) && (this.player.posX <= (e.posX + e.platWidth)) && ((this.player.posY) <= e.posY)) {
-                this.posY0 = e.posY;
-            } else {
-                this.posY0 = this.height;
-            } 
-            this.player.move(this.posY0);  
-        })
         
+        let updatedFloor = this.height;
+        
+        this.platform.forEach((e) => {
+            if ((this.player.posX >= e.posX) && (this.player.posX <= (e.posX + e.platWidth)) && ((this.player.posY ) <= e.posY)) { //comprueba si estamos encima de plataforma
+                // console.log("encima de plataforma")
+                updatedFloor = e.posY     
+                console.log(updatedFloor)   
+            // } else {
+            //     updatedFloor = this.height
+            }
+        });
+        
+        console.log("hola", updatedFloor)
+        this.player.jump(updatedFloor);
+        this.player.move();
     },
 
     tileGenerator: function (tileRow, tileColumn, tileImage) {
         return new Tiles(this.ctx, this.tilesLength * tileColumn, this.height - this.tilesLength * tileRow, this.tilesLength, tileImage);
     },
 
-    onPlatform: function (playerX, playerY, platformX, platformY, platformWidth) {
-        if (playerX >= platformX && playerX <= platformX + platformWidth) {
-            console.log("sobre plataforma");
+    onPlatform: function (playerX, platformX, platformWidth, playerY, platformY) {
+        if ((playerX >= platformX) && (playerX <= platformX + platformWidth) && (playerY + 86 <= platformY)) {
+            return true;
         }
     }
 }
+
