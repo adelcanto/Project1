@@ -121,10 +121,22 @@ class Player {
     }
 
     animate(framesCounter) {
-        if (framesCounter % 8 === 0) {
-            this.framesIndex++;
-            if (this.framesIndex > 9) this.framesIndex = 0;
+
+        if (this.movement) {
+            if (framesCounter % 3 === 0) {
+                this.framesIndex++;
+                if (this.framesIndex > 9) this.framesIndex = 0;
+            }
+        } else {
+            if (framesCounter % 8 === 0) {
+                this.framesIndex++;
+                if (this.framesIndex > 9) this.framesIndex = 0;
+            }
         }
+
+
+
+
     }
 
 
