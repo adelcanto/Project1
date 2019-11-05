@@ -43,10 +43,11 @@ const Game = {
 
     setElements: function () {
         this.background = new Background(this.ctx, this.width, this.height);
-        this.platform = [new Platform(this.ctx, 85, this.posY0, this.tilesLength * 4, 1),
-            new Platform(this.ctx, 685, this.posY0, this.tilesLength * 8, 1),
+        this.platform = [new Platform(this.ctx, 89, this.posY0, this.tilesLength * 3.8, 1),
+            new Platform(this.ctx, 685, this.posY0, this.tilesLength * 7.8, 1),
             new Platform(this.ctx, 855, 393, this.tilesLength * 3, 1),
-            new Platform(this.ctx, 305, 250, this.tilesLength * 3, 1),
+            new Platform(this.ctx, 305, 250, this.tilesLength * 2.8, 1),
+            new Platform(this.ctx, 985, 120, this.tilesLength * 6, 1),
         ]
         this.tiles = [
             this.tileGenerator(1, 0, 'img/tiles/17.png'),
@@ -68,7 +69,7 @@ const Game = {
             this.tileGenerator(1, 12, 'img/tiles/5.png'),
             this.tileGenerator(1, 13, 'img/tiles/5.png'),
             this.tileGenerator(1, 14, 'img/tiles/5.png'),
-            this.tileGenerator(1, 15, 'img/tiles/5.png'),
+            this.tileGenerator(1, 15, 'img/tiles/6.png'),
 
             this.tileGenerator(2, 1, 'img/tiles/1.png'),
             this.tileGenerator(2, 2, 'img/tiles/2.png'),
@@ -81,7 +82,7 @@ const Game = {
             this.tileGenerator(2, 12, 'img/tiles/2.png'),
             this.tileGenerator(2, 13, 'img/tiles/2.png'),
             this.tileGenerator(2, 14, 'img/tiles/2.png'),
-            this.tileGenerator(2, 15, 'img/tiles/2.png'),
+            this.tileGenerator(2, 15, 'img/tiles/3.png'),
 
             this.tileGenerator(4, 10, 'img/tiles/1.png'),
             this.tileGenerator(4, 11, 'img/tiles/2.png'),
@@ -89,6 +90,29 @@ const Game = {
             this.tileGenerator(3, 10, 'img/tiles/4.png'),
             this.tileGenerator(3, 11, 'img/tiles/5.png'),
             this.tileGenerator(3, 12, 'img/tiles/6.png'),
+
+            this.tileGenerator(5.7, 3.5, 'img/tiles/13.png'),
+            this.tileGenerator(5.7, 4.5, 'img/tiles/14.png'),
+            this.tileGenerator(5.7, 5.5, 'img/tiles/15.png'),
+
+            this.tileGenerator(7.2, 11.5, 'img/tiles/1.png'),
+            this.tileGenerator(7.2, 12.5, 'img/tiles/2.png'),
+            this.tileGenerator(7.2, 13.5, 'img/tiles/2.png'),
+            this.tileGenerator(7.2, 14.5, 'img/tiles/2.png'),
+            this.tileGenerator(7.2, 15.5, 'img/tiles/2.png'),
+            this.tileGenerator(7.2, 16.5, 'img/tiles/2.png'),
+            // this.tileGenerator(7.2, 16.5, 'img/tiles/2.png'),
+            
+            this.tileGenerator(6.2, 11.5, 'img/tiles/12.png'),
+            this.tileGenerator(6.2, 12.5, 'img/tiles/9.png'),
+            this.tileGenerator(6.2, 13.5, 'img/tiles/9.png'),
+            this.tileGenerator(6.2, 14.5, 'img/tiles/9.png'),
+            this.tileGenerator(6.2, 15.5, 'img/tiles/9.png'),
+            this.tileGenerator(6.2, 16.5, 'img/tiles/9.png'),
+            // this.tileGenerator(6.2, 16.5, 'img/tiles/9.png'),
+
+
+
             
 
 
@@ -98,15 +122,16 @@ const Game = {
 
     drawAll: function () {
         this.background.draw();
-        this.platform.forEach(e => e.draw());
         this.tiles.forEach(e => e.draw());
+        this.platform.forEach(e => e.draw());
+        
         this.player.draw(this.framesCounter);
     },
 
     moveAll: function () {
         let updatedFloor = this.height;
         this.platform.forEach((e) => {
-            if ((this.player.posX >= e.posX - this.player.width/2) && (this.player.posX + this.player.width/2 <= (e.posX + e.platWidth)) && ((this.player.posY ) <= e.posY)) { 
+            if ((this.player.posX >= e.posX - this.player.width/2) && (this.player.posX + this.player.width/2 <= (e.posX + e.platWidth)) && ((this.player.posY ) <= e.posY - this.player.height/2)) { 
                 updatedFloor = e.posY     
             }
         });

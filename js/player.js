@@ -87,7 +87,7 @@ class Player {
         document.addEventListener('keydown', (e) => {
             switch (e.keyCode) {
                 case this.keys.UP_ARROW:
-                    if (this.posY === 250 - this.height || this.posY === 563 - this.height || this.posY === 393 - this.height || this.posY === this.gameHeight - this.height) {
+                    if (this.posY === 120 - this.height || this.posY === 250 - this.height || this.posY === 563 - this.height || this.posY === 393 - this.height || this.posY === this.gameHeight - this.height) {
                         this.posY -= this.vy;
                         this.vy -= 12;
                     }
