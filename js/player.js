@@ -1,5 +1,5 @@
 class Player {
-    constructor(ctx, posX, posY, image, keys, gameHeight, gameWidth) {
+    constructor(ctx, posX, posY, keys, gameHeight, gameWidth, movement) {
         this.ctx = ctx;
         this.posX = posX;
         this.posY = posY;
@@ -7,13 +7,11 @@ class Player {
         this.width = 73;
 
         this.posY0 = this.gameHeight;
-        this.image = new Image();
-        this.image.src = image;
 
         this.gameHeight = gameHeight;
         this.gameWidth = gameWidth;
-        this.vx = 9;
-        this.vy = 0.4;
+        this.vx = 8;
+        this.vy = 0.5;
         this.gravity = 0.3;
         this.setListeners();
         this.keys = keys;
@@ -24,10 +22,21 @@ class Player {
 
         this.frames = 10;
         this.framesIndex = 0;
-        
+        this.jumping;
+        this.movement = false;
+        this.image = new Image();
+
+
     }
 
     draw(framesCounter) {
+        console.log("drawing", this.movement)
+        if (this.movement) {
+            this.image.src = "img/character/walkingKnight.png";
+        } else {
+            this.image.src = "img/character/idelingKnight.png";
+        }
+
         this.ctx.drawImage(
             this.image,
             this.framesIndex * (this.image.width / this.frames),
@@ -42,7 +51,7 @@ class Player {
         this.animate(framesCounter)
     }
 
-    jump(posY0){
+    jump(posY0) {
         if (this.posY < posY0 - this.height) {
             this.posY += this.vy;
             this.vy += this.gravity;
@@ -53,17 +62,7 @@ class Player {
     }
 
     move() {
-        
-        // if (this.posY < posY0 - this.height) {
-        //     this.posY += this.vy;
-        //     this.vy += this.gravity;
-        //     // this.charJumping = true;
-        // } else {
-        //     this.vy = 1;
-        //     this.posY = posY0 - this.height;
-        //     // this.charJumping = false;
-        // }
-       
+
         if (this.keyState.keyLeft) {
             this.posX -= this.vx;
         }
@@ -73,12 +72,11 @@ class Player {
     }
 
     setListeners() {
+
         document.addEventListener('keydown', (e) => {
             switch (e.keyCode) {
                 case this.keys.UP_ARROW:
-                    // console.log(this.posY0)
-                    // console.log("holaaaaaa")
-                    if (this.posY === 563-this.height || this.posY === 460-this.height || this.posY === this.gameHeight-this.height) {
+                    if (this.posY === 250 - this.height || this.posY === 563 - this.height || this.posY === 393 - this.height || this.posY === this.gameHeight - this.height) {
                         this.posY -= this.vy;
                         this.vy -= 12;
                     }
@@ -87,24 +85,39 @@ class Player {
         });
 
         document.addEventListener('keydown', (e) => {
+
             e.preventDefault();
             if (e.keyCode === 37) {
                 this.keyState.keyLeft = true;
+                this.movement = true;
+                // console.log(this.movement);
+
             }
             if (e.keyCode === 39) {
                 this.keyState.keyRight = true;
+                this.movement = true;
+                // console.log(this.movement);
+
             }
+
+            return this.movement;
         });
 
         document.addEventListener('keyup', (e) => {
+            // this.moving = false;
+            // console.log(this.moving)
             e.preventDefault();
             if (e.keyCode === 37) {
                 this.keyState.keyLeft = false;
+                this.movement = false;
             }
             if (e.keyCode === 39) {
                 this.keyState.keyRight = false;
+                this.movement = false;
             }
+            // return this.moving;
         });
+        return this.movement;
     }
 
     animate(framesCounter) {
@@ -113,5 +126,6 @@ class Player {
             if (this.framesIndex > 9) this.framesIndex = 0;
         }
     }
+
 
 }

@@ -15,6 +15,12 @@ const Game = {
         SPACE_BAR: 32
     },
     framesCounter: 0,
+    
+
+    // sprites: {
+    //     idle: "img/character/idelingKnight.png",
+    //     walk: "img/character/walkingKnight.png"
+    // }
 
     init: function () {
         this.canvas = document.getElementById('canvas');
@@ -29,6 +35,9 @@ const Game = {
     start: function () {
         this.setElements();
         this.interval = setInterval(() => {
+            // console.log("Game: ", this.movement);
+            // console.log("Player: ", this.player.movement);
+            this.movement = this.player.movement;
             this.framesCounter++;
             this.clear();
             this.drawAll();
@@ -42,9 +51,10 @@ const Game = {
 
     setElements: function () {
         this.background = new Background(this.ctx, this.width, this.height);
-        this.platform = [new Platform(this.ctx, 80, this.posY0, this.tilesLength * 4, 1),
-            new Platform(this.ctx, 680, this.posY0, this.tilesLength * 8, 1),
-            new Platform(this.ctx, 850, 460, this.tilesLength * 3, 1)
+        this.platform = [new Platform(this.ctx, 85, this.posY0, this.tilesLength * 4, 1),
+            new Platform(this.ctx, 685, this.posY0, this.tilesLength * 8, 1),
+            new Platform(this.ctx, 855, 393, this.tilesLength * 3, 1),
+            new Platform(this.ctx, 305, 250, this.tilesLength * 3, 1),
         ]
         this.tiles = [
             this.tileGenerator(1, 0, 'img/tiles/17.png'),
@@ -81,19 +91,23 @@ const Game = {
             this.tileGenerator(2, 14, 'img/tiles/2.png'),
             this.tileGenerator(2, 15, 'img/tiles/2.png'),
 
-            this.tileGenerator(3, 10, 'img/tiles/1.png'),
-            this.tileGenerator(3, 11, 'img/tiles/2.png'),
-            this.tileGenerator(3, 12, 'img/tiles/3.png')
+            this.tileGenerator(4, 10, 'img/tiles/1.png'),
+            this.tileGenerator(4, 11, 'img/tiles/2.png'),
+            this.tileGenerator(4, 12, 'img/tiles/3.png'),
+            this.tileGenerator(3, 10, 'img/tiles/4.png'),
+            this.tileGenerator(3, 11, 'img/tiles/5.png'),
+            this.tileGenerator(3, 12, 'img/tiles/6.png'),
+            
 
 
         ];
-        this.player = new Player(this.ctx, 105, 270, "img/character/idelingKnight.png", this.playerKeys, this.height, this.width); // 670 - 88 + 5 (PosY0 - player.height + ajuste por borde)
+        this.player = new Player(this.ctx, 105, 270, this.playerKeys, this.height, this.width); 
     },
 
     drawAll: function () {
         this.background.draw();
-        this.tiles.forEach(e => e.draw());
         this.platform.forEach(e => e.draw());
+        this.tiles.forEach(e => e.draw());
         this.player.draw(this.framesCounter);
     },
 
@@ -102,16 +116,11 @@ const Game = {
         let updatedFloor = this.height;
         
         this.platform.forEach((e) => {
-            if ((this.player.posX >= e.posX) && (this.player.posX <= (e.posX + e.platWidth)) && ((this.player.posY ) <= e.posY)) { //comprueba si estamos encima de plataforma
-                // console.log("encima de plataforma")
+            if ((this.player.posX >= e.posX) && (this.player.posX <= (e.posX + e.platWidth)) && ((this.player.posY ) <= e.posY)) { 
                 updatedFloor = e.posY     
-                console.log(updatedFloor)   
-            // } else {
-            //     updatedFloor = this.height
+                // console.log(updatedFloor)   
             }
         });
-        
-        console.log("hola", updatedFloor)
         this.player.jump(updatedFloor);
         this.player.move();
     },
@@ -124,6 +133,8 @@ const Game = {
         if ((playerX >= platformX) && (playerX <= platformX + platformWidth) && (playerY + 86 <= platformY)) {
             return true;
         }
-    }
+    },
+
+    
 }
 
