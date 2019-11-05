@@ -57,6 +57,8 @@ const Game = {
             this.tileGenerator(1, 6, 'img/tiles/17.png'),
             this.tileGenerator(1, 7, 'img/tiles/17.png'),
             this.tileGenerator(1, 8, 'img/tiles/17.png'),
+            this.tileGenerator(1, 15, 'img/tiles/17.png'),
+            this.tileGenerator(1, 16, 'img/tiles/17.png'),
 
             this.tileGenerator(1, 1, 'img/tiles/4.png'),
             this.tileGenerator(1, 2, 'img/tiles/5.png'),
@@ -110,13 +112,9 @@ const Game = {
             this.tileGenerator(6.2, 15.5, 'img/tiles/9.png'),
             this.tileGenerator(6.2, 16.5, 'img/tiles/9.png'),
             // this.tileGenerator(6.2, 16.5, 'img/tiles/9.png'),
-
-
-
-            
-
-
         ];
+        this.fireballs = new Fireballs(this.ctx, this.width, 513, 50, 50);
+        this.enemies = new Enemies(this.ctx, 1200, 70, 50, 50, this.width);
         this.player = new Player(this.ctx, 105, 270, this.playerKeys, this.height, this.width); 
     },
 
@@ -124,7 +122,8 @@ const Game = {
         this.background.draw();
         this.tiles.forEach(e => e.draw());
         this.platform.forEach(e => e.draw());
-        
+        this.fireballs.draw();
+        this.enemies.draw();
         this.player.draw(this.framesCounter);
     },
 
@@ -137,6 +136,9 @@ const Game = {
         });
         this.player.jump(updatedFloor);
         this.player.move();
+        this.fireballs.move();
+        this.enemies.move();
+
     },
 
     tileGenerator: function (tileRow, tileColumn, tileImage) {
@@ -149,6 +151,9 @@ const Game = {
         }
     },
 
-    
+    isCollision() {
+        // (p.x + p.w > o.x && o.x + o.w > p.x && p.y + p.h > o.y && o.y + o.h > p.y )
+        // return (this.player.posX + this.player.width > this.fireballs.posX &&
+    }
 }
 

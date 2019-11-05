@@ -41,6 +41,8 @@ class Player {
             case 'facing-left':
                 this.image.src = "img/character/idelingLeftKnight.png";
                 break;
+            case 'jumping-right':
+                this.image.src = "img/character/Jump (2).png"
 
         }
 
@@ -87,6 +89,7 @@ class Player {
         document.addEventListener('keydown', (e) => {
             switch (e.keyCode) {
                 case this.keys.UP_ARROW:
+                    // this.movement = "jumping-right";
                     if (this.posY === 120 - this.height || this.posY === 250 - this.height || this.posY === 563 - this.height || this.posY === 393 - this.height || this.posY === this.gameHeight - this.height) {
                         this.posY -= this.vy;
                         this.vy -= 12;
