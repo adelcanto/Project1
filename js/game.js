@@ -15,12 +15,6 @@ const Game = {
         SPACE_BAR: 32
     },
     framesCounter: 0,
-    
-
-    // sprites: {
-    //     idle: "img/character/idelingKnight.png",
-    //     walk: "img/character/walkingKnight.png"
-    // }
 
     init: function () {
         this.canvas = document.getElementById('canvas');
@@ -35,8 +29,6 @@ const Game = {
     start: function () {
         this.setElements();
         this.interval = setInterval(() => {
-            // console.log("Game: ", this.movement);
-            // console.log("Player: ", this.player.movement);
             this.movement = this.player.movement;
             this.framesCounter++;
             this.clear();
@@ -112,13 +104,10 @@ const Game = {
     },
 
     moveAll: function () {
-        
         let updatedFloor = this.height;
-        
         this.platform.forEach((e) => {
-            if ((this.player.posX >= e.posX) && (this.player.posX <= (e.posX + e.platWidth)) && ((this.player.posY ) <= e.posY)) { 
+            if ((this.player.posX >= e.posX - this.player.width/2) && (this.player.posX + this.player.width/2 <= (e.posX + e.platWidth)) && ((this.player.posY ) <= e.posY)) { 
                 updatedFloor = e.posY     
-                // console.log(updatedFloor)   
             }
         });
         this.player.jump(updatedFloor);

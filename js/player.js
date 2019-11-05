@@ -1,5 +1,5 @@
 class Player {
-    constructor(ctx, posX, posY, keys, gameHeight, gameWidth, movement) {
+    constructor(ctx, posX, posY, keys, gameHeight, gameWidth) {
         this.ctx = ctx;
         this.posX = posX;
         this.posY = posY;
@@ -19,23 +19,36 @@ class Player {
             keyLeft: false,
             keyRight: false
         };
-
         this.frames = 10;
         this.framesIndex = 0;
         this.jumping;
-        this.movement = false;
+        this.movement = 'facing-right';
         this.image = new Image();
-
-
     }
 
     draw(framesCounter) {
         console.log("drawing", this.movement)
-        if (this.movement) {
-            this.image.src = "img/character/walkingKnight.png";
-        } else {
-            this.image.src = "img/character/idelingKnight.png";
+        switch (this.movement) {
+            case 'moving-right':
+                this.image.src = "img/character/walkingKnight.png";
+                break;
+            case 'facing-right':
+                this.image.src = "img/character/idelingKnight.png";
+                break;
+            case 'moving-left':
+                this.image.src = "img/character/walkingLeftKnight.png";
+                break;
+            case 'facing-left':
+                this.image.src = "img/character/idelingLeftKnight.png";
+                break;
+
         }
+
+        // if (this.movement) {
+        //     this.image.src = "img/character/walkingKnight.png";
+        // } else {
+        //     this.image.src = "img/character/idelingKnight.png";
+        // }
 
         this.ctx.drawImage(
             this.image,
@@ -62,7 +75,6 @@ class Player {
     }
 
     move() {
-
         if (this.keyState.keyLeft) {
             this.posX -= this.vx;
         }
@@ -72,7 +84,6 @@ class Player {
     }
 
     setListeners() {
-
         document.addEventListener('keydown', (e) => {
             switch (e.keyCode) {
                 case this.keys.UP_ARROW:
@@ -85,21 +96,17 @@ class Player {
         });
 
         document.addEventListener('keydown', (e) => {
-
             e.preventDefault();
             if (e.keyCode === 37) {
                 this.keyState.keyLeft = true;
-                this.movement = true;
+                this.movement = "moving-left";
                 // console.log(this.movement);
-
             }
             if (e.keyCode === 39) {
                 this.keyState.keyRight = true;
-                this.movement = true;
+                this.movement = "moving-right";
                 // console.log(this.movement);
-
             }
-
             return this.movement;
         });
 
@@ -109,11 +116,11 @@ class Player {
             e.preventDefault();
             if (e.keyCode === 37) {
                 this.keyState.keyLeft = false;
-                this.movement = false;
+                this.movement = "facing-left";
             }
             if (e.keyCode === 39) {
                 this.keyState.keyRight = false;
-                this.movement = false;
+                this.movement = "facing-right";
             }
             // return this.moving;
         });
