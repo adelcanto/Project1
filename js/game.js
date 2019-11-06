@@ -178,10 +178,17 @@ const Game = {
             this.player.posY + this.player.height > this.zombies.posY &&
             this.zombies.posY + this.zombies.height > this.player.posY)
 
-        return zombieCollision || enemyCollision || floorCollision || this.fireballs.some(fireball => (this.player.posX + this.player.width > fireball.posX &&
+        let projectileCollision = this.projectiles.some(projectile => (this.player.posX + this.player.width > projectile.posX &&
+            projectile.posX + projectile.width > this.player.posX &&
+            this.player.posY + this.player.height > projectile.posY &&
+            projectile.posY + projectile.height > this.player.posY))
+
+        let fireBallCollision = this.fireballs.some(fireball => (this.player.posX + this.player.width > fireball.posX &&
             fireball.posX + fireball.width > this.player.posX &&
             this.player.posY + this.player.height > fireball.posY &&
             fireball.posY + fireball.height > this.player.posY))
+
+        return zombieCollision || enemyCollision || floorCollision || fireBallCollision || projectileCollision
     },
 
     generateFireballs() {
@@ -198,7 +205,7 @@ const Game = {
 
     clearFlyingObjects() {
         this.fireballs = this.fireballs.filter(fireball => fireball.posX >= 0);
-        this.projectiles = this.projectiles.filter(projectile => projectile.enemyX >=0);
-        this.projectiles = this.projectiles.filter(projectile => projectile.enemyX <= 1500);
+        this.projectiles = this.projectiles.filter(projectile => projectile.posX >=0);
+        this.projectiles = this.projectiles.filter(projectile => projectile.posX <= 1500);
     }
 }

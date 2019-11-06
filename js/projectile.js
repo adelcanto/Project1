@@ -1,10 +1,10 @@
 class Projectiles {
-    constructor(ctx, enemyX, enemyY, enemyWidth, enemyHeight, floor, enemyDirection) {
+    constructor(ctx, posX, posY, width, height, floor, enemyDirection) {
         this.ctx = ctx;
-        this.enemyX = enemyX;
-        this.enemyY = enemyY;
-        this.enemyWidth = enemyWidth;
-        this.enemyHeight = enemyHeight;
+        this.posX = posX;
+        this.posY = posY;
+        this.width = width;
+        this.height = height;
         this.floor = floor;
         this.enemyDirection = enemyDirection;
         this.vx = 3 * this.enemyDirection;
@@ -12,12 +12,12 @@ class Projectiles {
     }
 
     draw() {
-        this.ctx.fillRect(this.enemyX, this.enemyY, 20, 20);
+        this.ctx.fillRect(this.posX, this.posY, 20, 20);
         this.ctx.fillStyle = "red";
     }
 
     move() {
-        this.enemyX += this.vx;
+        this.posX += this.vx;
     }
 
 }
