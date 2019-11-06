@@ -120,7 +120,7 @@ const Game = {
             // this.tileGenerator(6.2, 16.5, 'img/tiles/9.png'),
         ];
 
-        this.enemies = new Enemies(this.ctx, 1200, 70, 50, 50, this.width);
+        this.enemies = new Enemies(this.ctx, 1200, 32, 73, 88, this.width);
         this.zombies = new Zombies(this.ctx, 450, 160, 73, 88, this.width);
         this.player = new Player(this.ctx, 105, 270, this.playerKeys, this.height, this.width);
         
@@ -131,7 +131,7 @@ const Game = {
         this.platform.forEach(platform => platform.draw());
         this.tiles.forEach(tile => tile.draw());
         this.projectiles.forEach(projectile => projectile.draw())
-        this.enemies.draw();
+        this.enemies.draw(this.framesCounter);
         this.zombies.draw(this.framesCounter);
         this.player.draw(this.framesCounter);
         this.fireballs.forEach(fireball => fireball.draw());
@@ -196,7 +196,7 @@ const Game = {
     },
 
     generateProjectiles() {
-        this.projectiles.push(new Projectiles(this.ctx, this.enemies.posX, this.enemies.posY, this.enemies.width, this.enemies.height, this.height, this.enemies.enemyDirection));
+        this.projectiles.push(new Projectiles(this.ctx, this.enemies.posX + this.enemies.width/2, this.enemies.posY + this.enemies.height/2, this.enemies.width, this.enemies.height, this.height, this.enemies.enemyDirection));
     },
 
     gameOver() {
