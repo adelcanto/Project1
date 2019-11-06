@@ -27,7 +27,6 @@ class Player {
     }
 
     draw(framesCounter) {
-        console.log("drawing", this.movement)
         switch (this.movement) {
             case 'moving-right':
                 this.image.src = "img/character/walkingKnight.png";

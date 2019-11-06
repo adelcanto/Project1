@@ -121,7 +121,7 @@ const Game = {
         ];
 
         this.enemies = new Enemies(this.ctx, 1200, 70, 50, 50, this.width);
-        this.zombies = new Zombies(this.ctx, 450, 200, 50, 50, this.width);
+        this.zombies = new Zombies(this.ctx, 450, 160, 73, 88, this.width);
         this.player = new Player(this.ctx, 105, 270, this.playerKeys, this.height, this.width);
         
     },
@@ -132,7 +132,7 @@ const Game = {
         this.tiles.forEach(tile => tile.draw());
         this.projectiles.forEach(projectile => projectile.draw())
         this.enemies.draw();
-        this.zombies.draw();
+        this.zombies.draw(this.framesCounter);
         this.player.draw(this.framesCounter);
         this.fireballs.forEach(fireball => fireball.draw());
         
@@ -173,10 +173,10 @@ const Game = {
             this.player.posY + this.player.height > this.enemies.posY &&
             this.enemies.posY + this.enemies.height > this.player.posY)
 
-        let zombieCollision = (this.player.posX + this.player.width > this.zombies.posX &&
-            this.zombies.posX + this.zombies.width > this.player.posX &&
-            this.player.posY + this.player.height > this.zombies.posY &&
-            this.zombies.posY + this.zombies.height > this.player.posY)
+        let zombieCollision = (this.player.posX + this.player.width > this.zombies.posX + 30 &&
+            this.zombies.posX + this.zombies.width > this.player.posX + 30 &&
+            this.player.posY + this.player.height > this.zombies.posY + 20 &&
+            this.zombies.posY + this.zombies.height > this.player.posY + 20)
 
         let projectileCollision = this.projectiles.some(projectile => (this.player.posX + this.player.width > projectile.posX &&
             projectile.posX + projectile.width > this.player.posX &&
