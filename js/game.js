@@ -16,6 +16,7 @@ const Game = {
     },
     framesCounter: 0,
     fireballs: [],
+    projectiles: [],
 
     init: function () {
         this.canvas = document.getElementById('canvas');
@@ -32,7 +33,8 @@ const Game = {
         this.interval = setInterval(() => {
             this.movement = this.player.movement;
             this.framesCounter++;
-            this.clearFireballs();
+            this.clearFlyingObjects();
+            if (this.framesCounter%100 === 0) {if (this.framesCounter%10 === 0) this.generateProjectiles()};
             if (this.framesCounter % 90 === 0) this.generateFireballs();
             if (this.isCollision() === true) this.gameOver();
             this.clear();
@@ -121,17 +123,19 @@ const Game = {
         this.enemies = new Enemies(this.ctx, 1200, 70, 50, 50, this.width);
         this.zombies = new Zombies(this.ctx, 450, 200, 50, 50, this.width);
         this.player = new Player(this.ctx, 105, 270, this.playerKeys, this.height, this.width);
+        
     },
 
     drawAll: function () {
         this.background.draw();
-        this.tiles.forEach(e => e.draw());
-
+        this.platform.forEach(platform => platform.draw());
+        this.tiles.forEach(tile => tile.draw());
+        this.projectiles.forEach(projectile => projectile.draw())
         this.enemies.draw();
         this.zombies.draw();
         this.player.draw(this.framesCounter);
         this.fireballs.forEach(fireball => fireball.draw());
-        this.platform.forEach(e => e.draw());
+        
     },
 
     moveAll: function () {
@@ -143,7 +147,7 @@ const Game = {
         });
         this.player.jump(updatedFloor);
         this.player.move();
-
+        this.projectiles.forEach(projectile => projectile.move());
         this.enemies.move();
         this.zombies.move();
         this.fireballs.forEach(fireball => fireball.move());
@@ -161,7 +165,7 @@ const Game = {
 
     isCollision() {
         // (p.x + p.w > o.x && o.x + o.w > p.x && p.y + p.h > o.y && o.y + o.h > p.y )
-        // return (this.player.posX + this.player.width > this.fireballs.posX &&
+   
         let floorCollision = this.player.posY + this.player.height >= this.height;
 
         let enemyCollision = (this.player.posX + this.player.width > this.enemies.posX &&
@@ -184,11 +188,17 @@ const Game = {
         this.fireballs.push((new Fireballs(this.ctx, this.width, 513, 50, 50)));
     },
 
+    generateProjectiles() {
+        this.projectiles.push(new Projectiles(this.ctx, this.enemies.posX, this.enemies.posY, this.enemies.width, this.enemies.height, this.height, this.enemies.enemyDirection));
+    },
+
     gameOver() {
         clearInterval(this.interval);
     },
 
-    clearFireballs() {
+    clearFlyingObjects() {
         this.fireballs = this.fireballs.filter(fireball => fireball.posX >= 0);
+        this.projectiles = this.projectiles.filter(projectile => projectile.enemyX >=0);
+        this.projectiles = this.projectiles.filter(projectile => projectile.enemyX <= 1500);
     }
 }

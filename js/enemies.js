@@ -6,6 +6,7 @@ class Enemies {
         this.width = width;
         this.height = height;
         this.gameWidth = gameWidth;
+        this.enemyDirection = 1;
         this.vx = 1.5;
         this.vy = 6
     }
@@ -20,11 +21,13 @@ class Enemies {
         this.posX -= this.vx;
 
         if (this.posX > this.gameWidth - this.width) {
-            this.vx *= -1;   
+            this.vx *= -1;
+            this.enemyDirection = -1; 
         } 
 
         if (this.posX < 980){
             this.vx *= -1;
+            this.enemyDirection = +1;
         }
 
 
