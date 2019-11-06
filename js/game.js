@@ -164,7 +164,7 @@ const Game = {
         this.enemies.move();
         this.zombies.move();
         this.fireballs.forEach(fireball => fireball.move());
-        this.background.move();
+        this.background.move(this.player.vy);
     },
 
     tileGenerator: function (tileRow, tileColumn, tileImage) {

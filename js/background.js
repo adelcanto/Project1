@@ -6,8 +6,8 @@ class Background {
         
         this.posX = 0;
         this.posY = 0;
-        this.vx = -1;
-        this.vy = 0.5
+        this.vx = -2;
+        this.vy = 1
 
         this.image = new Image();
         this.image.src = 'img/BG.png';
@@ -36,21 +36,15 @@ class Background {
         
     }
 
-    move() {
+    move(playerVY) {
         if (this.keyState.keyLeft) {
             this.posX -= this.vx;
         }
         if (this.keyState.keyRight) {
             this.posX += this.vx;
         }
-        if (this.keyState.keyUp){
-            this.posY += this.vy;
-        }
+        this.posY -= (playerVY-1)/9;
 
-        // this.posY += this.vy
-        // if (!this.keyState.keyUp){
-        //     this.posY -= this.vy;
-        // }
     }
 
     setListeners() {
