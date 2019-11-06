@@ -34,7 +34,7 @@ const Game = {
             this.movement = this.player.movement;
             this.framesCounter++;
             this.clearFlyingObjects();
-            if (this.framesCounter%100 === 0) {if (this.framesCounter%10 === 0) this.generateProjectiles()};
+            if (this.framesCounter%50 === 0) {if (this.framesCounter%10 === 0) this.generateProjectiles()};
             if (this.framesCounter % 90 === 0) this.generateFireballs();
             if (this.isCollision() === true) this.gameOver();
             this.clear();
@@ -120,7 +120,18 @@ const Game = {
             // this.tileGenerator(6.2, 16.5, 'img/tiles/9.png'),
         ];
 
-        this.enemies = new Enemies(this.ctx, 1200, 32, 73, 88, this.width);
+        this.objects = [
+            
+            this.objectGenerator(120, 328, 'img/objects/Secene1.png'),
+            this.objectGenerator(850, 158, 'img/objects/Secene2.png'),
+            this.objectGenerator(1110, 328, 'img/objects/Secene3.png'),
+            this.objectGenerator(770, 328, 'img/objects/Secene4.png'),
+            this.objectGenerator(270, 13, 'img/objects/Secene5.png'),
+            this.objectGenerator(1000, -113, 'img/objects/Secene6.png'),
+            
+        ];
+
+        this.enemies = new Enemies(this.ctx, 1200, 12, 120, 120, this.width);
         this.zombies = new Zombies(this.ctx, 450, 160, 73, 88, this.width);
         this.player = new Player(this.ctx, 105, 270, this.playerKeys, this.height, this.width);
         
@@ -129,12 +140,14 @@ const Game = {
     drawAll: function () {
         this.background.draw();
         this.platform.forEach(platform => platform.draw());
+        
         this.tiles.forEach(tile => tile.draw());
+        this.objects.forEach(object => object.draw())
         this.projectiles.forEach(projectile => projectile.draw())
         this.enemies.draw(this.framesCounter);
         this.zombies.draw(this.framesCounter);
         this.player.draw(this.framesCounter);
-        this.fireballs.forEach(fireball => fireball.draw());
+        this.fireballs.forEach(fireball => fireball.draw(this.framesCounter));
         
     },
 
@@ -155,6 +168,10 @@ const Game = {
 
     tileGenerator: function (tileRow, tileColumn, tileImage) {
         return new Tiles(this.ctx, this.tilesLength * tileColumn, this.height - this.tilesLength * tileRow, this.tilesLength, tileImage);
+    },
+
+    objectGenerator: function(posX, posY, objImage) {
+        return new Objects(this.ctx, posX, posY, objImage)
     },
 
     onPlatform: function (playerX, platformX, platformWidth, playerY, platformY) {
@@ -178,10 +195,10 @@ const Game = {
             this.player.posY + this.player.height > this.zombies.posY + 20 &&
             this.zombies.posY + this.zombies.height > this.player.posY + 20)
 
-        let projectileCollision = this.projectiles.some(projectile => (this.player.posX + this.player.width > projectile.posX &&
-            projectile.posX + projectile.width > this.player.posX &&
-            this.player.posY + this.player.height > projectile.posY &&
-            projectile.posY + projectile.height > this.player.posY))
+        let projectileCollision = this.projectiles.some(projectile => (this.player.posX + this.player.width > projectile.posX + 30 &&
+            projectile.posX + projectile.width > this.player.posX + 30 &&
+            this.player.posY + this.player.height > projectile.posY + 30 &&
+            projectile.posY + projectile.height > this.player.posY + 100))
 
         let fireBallCollision = this.fireballs.some(fireball => (this.player.posX + this.player.width > fireball.posX &&
             fireball.posX + fireball.width > this.player.posX &&
@@ -192,7 +209,7 @@ const Game = {
     },
 
     generateFireballs() {
-        this.fireballs.push((new Fireballs(this.ctx, this.width, 513, 50, 50)));
+        this.fireballs.push((new Fireballs(this.ctx, this.width, 450, 120, 120)));
     },
 
     generateProjectiles() {

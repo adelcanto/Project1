@@ -11,7 +11,7 @@ class Enemies {
         this.vy = 6;
         this.image = new Image();
         this.framesIndex = 0;
-        this.frames = 10;
+        this.frames = 8;
         this.movement = 'facing-left';
     }
 
@@ -21,10 +21,10 @@ class Enemies {
 
         switch (this.movement) {
             case 'facing-left':
-                this.image.src = "img/Zombie/walkingLeftZombie.png";
+                this.image.src = "img/enemy/runningEnemyLeft.png";
                 break;
             case 'facing-right':
-                this.image.src = "img/Zombie/walkingRightZombie.png";
+                this.image.src = "img/enemy/runningEnemyRight.png";
                 break;
         }
 
@@ -65,9 +65,9 @@ class Enemies {
 
 
     animate(framesCounter) {
-        if (framesCounter % 3 === 0) {
+        if (framesCounter % 7 === 0) {
             this.framesIndex++;
-            if (this.framesIndex > 9) this.framesIndex = 0;
+            if (this.framesIndex > 7) this.framesIndex = 0;
         }
     }
 }
