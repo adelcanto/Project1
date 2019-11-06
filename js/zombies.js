@@ -1,4 +1,4 @@
-class Enemies {
+class Zombies {
     constructor(ctx, posX, posY, width, height, gameWidth) {
         this.ctx = ctx;
         this.posX = posX;
@@ -19,11 +19,11 @@ class Enemies {
         
         this.posX -= this.vx;
 
-        if (this.posX > this.gameWidth - this.width) {
+        if (this.posX > (544-50)) {
             this.vx *= -1;   
         } 
 
-        if (this.posX < 980){
+        if (this.posX < 305){
             this.vx *= -1;
         }
 
