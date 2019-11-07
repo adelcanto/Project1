@@ -45,6 +45,7 @@ const Game = {
             if (this.framesCounter % 90 === 0) this.generateFireballs();
             if (this.isCollision() === true) this.gameOver();
             this.isCollected();
+            if (this.isCompleted()) this.youWin();
             this.clear();
             this.drawAll();
             this.moveAll();
@@ -161,13 +162,13 @@ const Game = {
         this.zombies.draw(this.framesCounter);
         this.player.draw(this.framesCounter);
         this.fireballs.forEach(fireball => fireball.draw(this.framesCounter));
-        if(!this.bronzeCoinCollected) this.bronzeCoin.draw(this.framesCounter);
+        if (!this.bronzeCoinCollected) this.bronzeCoin.draw(this.framesCounter);
         if (!this.silverCoinCollected) this.silverCoin.draw(this.framesCounter);
         if (!this.goldCoinCollected) this.goldCoin.draw(this.framesCounter);
-        if(this.bronzeCoinCollected) this.bronzeScore.draw();
-        if(this.silverCoinCollected) this.silverScore.draw();
-        if(this.goldCoinCollected) this.goldScore.draw();
-        
+        if (this.bronzeCoinCollected) this.bronzeScore.draw();
+        if (this.silverCoinCollected) this.silverScore.draw();
+        if (this.goldCoinCollected) this.goldScore.draw();
+
     },
 
     moveAll: function () {
@@ -205,10 +206,10 @@ const Game = {
 
         let floorCollision = this.player.posY + this.player.height >= this.height;
 
-        let enemyCollision = (this.player.posX + this.player.width > this.enemies.posX &&
-            this.enemies.posX + this.enemies.width > this.player.posX &&
-            this.player.posY + this.player.height > this.enemies.posY &&
-            this.enemies.posY + this.enemies.height > this.player.posY)
+        let enemyCollision = (this.player.posX + this.player.width > this.enemies.posX + 30 &&
+            this.enemies.posX + this.enemies.width > this.player.posX + 30 &&
+            this.player.posY + this.player.height > this.enemies.posY + 30 &&
+            this.enemies.posY + this.enemies.height > this.player.posY + 80)
 
         let zombieCollision = (this.player.posX + this.player.width > this.zombies.posX + 30 &&
             this.zombies.posX + this.zombies.width > this.player.posX + 30 &&
@@ -220,9 +221,9 @@ const Game = {
             this.player.posY + this.player.height > projectile.posY + 30 &&
             projectile.posY + projectile.height > this.player.posY + 100))
 
-        let fireBallCollision = this.fireballs.some(fireball => (this.player.posX + this.player.width > fireball.posX &&
-            fireball.posX + fireball.width > this.player.posX &&
-            this.player.posY + this.player.height > fireball.posY &&
+        let fireBallCollision = this.fireballs.some(fireball => (this.player.posX + this.player.width > fireball.posX + 30 &&
+            fireball.posX + fireball.width > this.player.posX + 30 &&
+            this.player.posY + this.player.height > fireball.posY + 30 &&
             fireball.posY + fireball.height > this.player.posY))
 
         return zombieCollision || enemyCollision || floorCollision || fireBallCollision || projectileCollision
@@ -262,11 +263,38 @@ const Game = {
 
     gameOver() {
         clearInterval(this.interval);
+        document.getElementById('game-over').setAttribute('class', 'appear');
+        document.getElementById('canvas').setAttribute('class', 'hide');
+        this.bronzeCoinCollected= false;
+        this.silverCoinCollected= false;
+        this.goldCoinCollected= false;
     },
 
     clearFlyingObjects() {
         this.fireballs = this.fireballs.filter(fireball => fireball.posX >= 0);
         this.projectiles = this.projectiles.filter(projectile => projectile.posX >= 0);
         this.projectiles = this.projectiles.filter(projectile => projectile.posX <= 1500);
+    },
+
+    isCompleted() {
+        let onGoal = (this.player.posX + this.player.width > 1321 &&
+            1340 > this.player.posX &&
+            this.player.posY + this.player.height > 32 &&
+            72 > this.player.posY);
+        // if (onGoal && this.bronzeCoinCollected && this.silverCoinCollected && this.goldCoinCollected) {
+        return (onGoal && this.bronzeCoinCollected && this.silverCoinCollected && this.goldCoinCollected);
+        // if (this.bronzeCoin) {   
+        //     clearInterval(this.interval);
+        //     document.getElementById('you-win').setAttribute('class', 'appear');
+
+    },
+
+    youWin() {
+        clearInterval(this.interval);
+        document.getElementById('you-win').setAttribute('class', 'appear');
+        document.getElementById('canvas').setAttribute('class', 'hide');
+        this.bronzeCoinCollected= false;
+        this.silverCoinCollected= false;
+        this.goldCoinCollected= false;
     }
 }

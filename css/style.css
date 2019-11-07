@@ -70,3 +70,37 @@ body {
 #title-screen.hide {
     display:none;
 }
+
+#game-over {
+	display: none
+}
+
+#game-over.appear {
+	display: flex;
+	flex-direction: column;
+    justify-content: center;
+	align-items: center;
+}
+
+#game-over.hide{
+	display: none;
+}
+
+#you-win {
+	display: none;
+}
+
+#you-win.appear {
+	display: flex;
+	flex-direction: column;
+    justify-content: center;
+	align-items: center;
+}
+
+#you-win.hide {
+	display: none;
+}
+
+#canvas.hide {
+	display:none;
+}

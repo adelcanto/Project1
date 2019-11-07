@@ -21,15 +21,18 @@ class Background {
     }
     
     draw(){
+       
+        this.ctx.beginPath();
+        this.ctx.fillRect(0,-300,1900,500);
+        this.ctx.fillStyle = "#DDF8FF";
+        this.ctx.closePath();
+       
         this.ctx.drawImage(this.image,this.posX, this.posY, this.width, this.height);
         
 
         this.ctx.drawImage(this.image,this.posX + this.width, this.posY, this.width, this.height);
        
-        this.ctx.beginPath();
-        this.ctx.fillRect(0,-500,1900,500);
-        this.ctx.fillStyle = "#DDF8FF";
-        this.ctx.closePath();
+        
         
     }
 
