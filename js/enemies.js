@@ -16,8 +16,6 @@ class Enemies {
     }
 
     draw(framesCounter) {
-        // this.ctx.fillRect(this.posX, this.posY, this.width, this.height);
-        // this.ctx.fillStyle = "green";
 
         switch (this.movement) {
             case 'facing-left':
