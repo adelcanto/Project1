@@ -22,7 +22,6 @@ const Game = {
     silverCoinCollected: false,
     goldCoinCollected: false,
 
-
     init: function () {
         this.canvas = document.getElementById('canvas');
         this.ctx = canvas.getContext('2d');
@@ -34,6 +33,9 @@ const Game = {
     },
 
     start: function () {
+        let gamePlayAudio = new Audio ();
+        gamePlayAudio.src = 'audio/gamePlaymusic.mp3'
+        gamePlayAudio.play();
         this.setElements();
         this.interval = setInterval(() => {
             this.movement = this.player.movement;
@@ -42,8 +44,11 @@ const Game = {
             if (this.framesCounter % 50 === 0) {
                 if (this.framesCounter % 10 === 0) this.generateProjectiles()
             };
-            if (this.framesCounter % 90 === 0) this.generateFireballs();
-            if (this.isCollision() === true) this.gameOver();
+            if (this.framesCounter % 120 === 0) this.generateFireballs();
+            if (this.isCollision()) {
+                this.gameOver();
+                gamePlayAudio.pause();
+            }
             this.isCollected();
             if (this.isCompleted()) this.youWin();
             this.clear();
@@ -153,6 +158,8 @@ const Game = {
     },
 
     drawAll: function () {
+        let coinSound = new Audio ();
+        coinSound.src = 'audio/coinSound.mp3';
         this.background.draw();
         this.platform.forEach(platform => platform.draw());
         this.tiles.forEach(tile => tile.draw());
@@ -230,6 +237,7 @@ const Game = {
     },
 
     isCollected() {
+
         if (this.player.posX + this.player.width > this.bronzeCoin.posX + 30 &&
             this.bronzeCoin.posX + this.bronzeCoin.width > this.player.posX + 30 &&
             this.player.posY + this.player.height > this.bronzeCoin.posY + 20 &&
@@ -268,6 +276,7 @@ const Game = {
         this.bronzeCoinCollected= false;
         this.silverCoinCollected= false;
         this.goldCoinCollected= false;
+        this.fireballs = this.fireballs.filter(fireball => fireball.posX = 0);
     },
 
     clearFlyingObjects() {
@@ -281,16 +290,14 @@ const Game = {
             1340 > this.player.posX &&
             this.player.posY + this.player.height > 32 &&
             72 > this.player.posY);
-        // if (onGoal && this.bronzeCoinCollected && this.silverCoinCollected && this.goldCoinCollected) {
         return (onGoal && this.bronzeCoinCollected && this.silverCoinCollected && this.goldCoinCollected);
-        // if (this.bronzeCoin) {   
-        //     clearInterval(this.interval);
-        //     document.getElementById('you-win').setAttribute('class', 'appear');
+
 
     },
 
     youWin() {
         clearInterval(this.interval);
+        
         document.getElementById('you-win').setAttribute('class', 'appear');
         document.getElementById('canvas').setAttribute('class', 'hide');
         this.bronzeCoinCollected= false;
