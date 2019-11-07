@@ -17,6 +17,11 @@ const Game = {
     framesCounter: 0,
     fireballs: [],
     projectiles: [],
+    score: [],
+    bronzeCoinCollected: false,
+    silverCoinCollected: false,
+    goldCoinCollected: false,
+
 
     init: function () {
         this.canvas = document.getElementById('canvas');
@@ -34,9 +39,12 @@ const Game = {
             this.movement = this.player.movement;
             this.framesCounter++;
             this.clearFlyingObjects();
-            if (this.framesCounter%50 === 0) {if (this.framesCounter%10 === 0) this.generateProjectiles()};
+            if (this.framesCounter % 50 === 0) {
+                if (this.framesCounter % 10 === 0) this.generateProjectiles()
+            };
             if (this.framesCounter % 90 === 0) this.generateFireballs();
             if (this.isCollision() === true) this.gameOver();
+            this.isCollected();
             this.clear();
             this.drawAll();
             this.moveAll();
@@ -44,7 +52,7 @@ const Game = {
     },
 
     clear: function () {
-        this.ctx.clearRect(0, 0, this.width, this.heigth);
+        this.ctx.clearRect(0, -500, this.width, this.height + 500);
     },
 
     setElements: function () {
@@ -121,33 +129,44 @@ const Game = {
         ];
 
         this.objects = [
-            
+
             this.objectGenerator(120, 328, 'img/objects/Secene1.png'),
             this.objectGenerator(850, 158, 'img/objects/Secene2.png'),
             this.objectGenerator(1110, 328, 'img/objects/Secene3.png'),
             this.objectGenerator(770, 328, 'img/objects/Secene4.png'),
             this.objectGenerator(270, 13, 'img/objects/Secene5.png'),
             this.objectGenerator(1000, -113, 'img/objects/Secene6.png'),
-            
+
         ];
 
         this.enemies = new Enemies(this.ctx, 1200, 12, 120, 120, this.width);
         this.zombies = new Zombies(this.ctx, 450, 160, 73, 88, this.width);
         this.player = new Player(this.ctx, 105, 270, this.playerKeys, this.height, this.width);
-        
+        this.bronzeCoin = new Coins(this.ctx, 1200, 350, 'bronze');
+        this.silverCoin = new Coins(this.ctx, 720, 10, 'silver');
+        this.goldCoin = new Coins(this.ctx, 70, 0, 'gold');
+        this.bronzeScore = new ScoreBoard(this.ctx, 'img/coins/bronzeScore.png', 50, 650);
+        this.silverScore = new ScoreBoard(this.ctx, 'img/coins/silverScore.png', 125, 650);
+        this.goldScore = new ScoreBoard(this.ctx, 'img/coins/goldScore.png', 200, 650);
+
     },
 
     drawAll: function () {
         this.background.draw();
         this.platform.forEach(platform => platform.draw());
-        
         this.tiles.forEach(tile => tile.draw());
         this.objects.forEach(object => object.draw())
-        this.projectiles.forEach(projectile => projectile.draw())
         this.enemies.draw(this.framesCounter);
+        this.projectiles.forEach(projectile => projectile.draw())
         this.zombies.draw(this.framesCounter);
         this.player.draw(this.framesCounter);
         this.fireballs.forEach(fireball => fireball.draw(this.framesCounter));
+        if(!this.bronzeCoinCollected) this.bronzeCoin.draw(this.framesCounter);
+        if (!this.silverCoinCollected) this.silverCoin.draw(this.framesCounter);
+        if (!this.goldCoinCollected) this.goldCoin.draw(this.framesCounter);
+        if(this.bronzeCoinCollected) this.bronzeScore.draw();
+        if(this.silverCoinCollected) this.silverScore.draw();
+        if(this.goldCoinCollected) this.goldScore.draw();
         
     },
 
@@ -171,7 +190,7 @@ const Game = {
         return new Tiles(this.ctx, this.tilesLength * tileColumn, this.height - this.tilesLength * tileRow, this.tilesLength, tileImage);
     },
 
-    objectGenerator: function(posX, posY, objImage) {
+    objectGenerator: function (posX, posY, objImage) {
         return new Objects(this.ctx, posX, posY, objImage)
     },
 
@@ -183,7 +202,7 @@ const Game = {
 
     isCollision() {
         // (p.x + p.w > o.x && o.x + o.w > p.x && p.y + p.h > o.y && o.y + o.h > p.y )
-   
+
         let floorCollision = this.player.posY + this.player.height >= this.height;
 
         let enemyCollision = (this.player.posX + this.player.width > this.enemies.posX &&
@@ -209,12 +228,36 @@ const Game = {
         return zombieCollision || enemyCollision || floorCollision || fireBallCollision || projectileCollision
     },
 
+    isCollected() {
+        if (this.player.posX + this.player.width > this.bronzeCoin.posX + 30 &&
+            this.bronzeCoin.posX + this.bronzeCoin.width > this.player.posX + 30 &&
+            this.player.posY + this.player.height > this.bronzeCoin.posY + 20 &&
+            this.bronzeCoin.posY + this.bronzeCoin.height > this.player.posY + 20) {
+            this.bronzeCoinCollected = true;
+
+        }
+
+        if (this.player.posX + this.player.width > this.silverCoin.posX + 30 &&
+            this.silverCoin.posX + this.silverCoin.width > this.player.posX + 30 &&
+            this.player.posY + this.player.height > this.silverCoin.posY + 20 &&
+            this.silverCoin.posY + this.silverCoin.height > this.player.posY + 20) {
+            this.silverCoinCollected = true;
+        }
+
+        if (this.player.posX + this.player.width > this.goldCoin.posX + 30 &&
+            this.goldCoin.posX + this.goldCoin.width > this.player.posX + 30 &&
+            this.player.posY + this.player.height > this.goldCoin.posY + 20 &&
+            this.goldCoin.posY + this.goldCoin.height > this.player.posY + 20) {
+            this.goldCoinCollected = true;
+        }
+    },
+
     generateFireballs() {
         this.fireballs.push((new Fireballs(this.ctx, this.width, 450, 120, 120)));
     },
 
     generateProjectiles() {
-        this.projectiles.push(new Projectiles(this.ctx, this.enemies.posX + this.enemies.width/2, this.enemies.posY + this.enemies.height/2, this.enemies.width, this.enemies.height, this.height, this.enemies.enemyDirection));
+        this.projectiles.push(new Projectiles(this.ctx, this.enemies.posX + this.enemies.width / 2, this.enemies.posY + this.enemies.height / 3, this.enemies.width, this.enemies.height, this.height, this.enemies.enemyDirection));
     },
 
     gameOver() {
@@ -223,7 +266,7 @@ const Game = {
 
     clearFlyingObjects() {
         this.fireballs = this.fireballs.filter(fireball => fireball.posX >= 0);
-        this.projectiles = this.projectiles.filter(projectile => projectile.posX >=0);
+        this.projectiles = this.projectiles.filter(projectile => projectile.posX >= 0);
         this.projectiles = this.projectiles.filter(projectile => projectile.posX <= 1500);
     }
 }

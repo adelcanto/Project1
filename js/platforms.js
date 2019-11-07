@@ -8,8 +8,10 @@ class Platform {
     }
 
     draw() {
+        this.ctx.beginPath();
         this.ctx.fillRect(this.posX, this.posY, this.platWidth, this.platHeight);
-        this.ctx.fillStyle = "green"
+        // this.ctx.fillStyle = "green";
+        this.ctx.closePath();
     }
 
 }

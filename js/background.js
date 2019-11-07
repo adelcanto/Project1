@@ -23,16 +23,13 @@ class Background {
     draw(){
         this.ctx.drawImage(this.image,this.posX, this.posY, this.width, this.height);
         
-        this.ctx.drawImage(this.image,this.posX, this.posY - 2*this.height, this.width, -this.height);
-        // this.ctx.scale(0,-1)
-        
+
         this.ctx.drawImage(this.image,this.posX + this.width, this.posY, this.width, this.height);
-        
-        this.ctx.drawImage(this.image,this.posX + this.width, this.posY - 2*this.height, this.width, -this.height);
-        // this.ctx.scale(0,-1)
        
-        // this.ctx.fillRect(0,-500,1000,500);
-        // this.ctx.fillStyle = "red";
+        this.ctx.beginPath();
+        this.ctx.fillRect(0,-500,1900,500);
+        this.ctx.fillStyle = "#DDF8FF";
+        this.ctx.closePath();
         
     }
 
@@ -48,7 +45,6 @@ class Background {
     }
 
     setListeners() {
-
         document.addEventListener('keydown', (e) => {
             e.preventDefault();
             if (e.keyCode === 37) {
@@ -59,8 +55,7 @@ class Background {
             }
             if (e.keyCode === 38) {
                 this.keyState.keyUp = true;
-            }
-            
+            }           
         });
 
         document.addEventListener('keyup', (e) => {

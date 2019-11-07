@@ -32,14 +32,14 @@ class Enemies {
             this.image,
             this.framesIndex * (this.image.width / this.frames),
             0,
-            (this.image.width / this.frames),
+            this.image.width / this.frames,
             this.image.height,
             this.posX,
             this.posY,
             this.width,
             this.height
-        );
-        this.animate(framesCounter)
+        )
+        this.animate(framesCounter);
 
     }
 
