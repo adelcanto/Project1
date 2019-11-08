@@ -25,8 +25,8 @@ const Game = {
     init: function () {
         this.canvas = document.getElementById('canvas');
         this.ctx = canvas.getContext('2d');
-        this.width = window.innerWidth;
-        this.height = window.innerHeight;
+        this.width = 1440 //window.innerWidth;
+        this.height = 730 //window.innerHeight;
         this.canvas.height = this.height;
         this.canvas.width = this.width;
         this.start();
@@ -46,6 +46,7 @@ const Game = {
             };
             if (this.framesCounter % 120 === 0) this.generateFireballs();
             if (this.isCollision()) {
+                document.getElementById("canvas").style.display = "none"
                 this.gameOver();
                 gamePlayAudio.pause();
             }
@@ -158,8 +159,6 @@ const Game = {
     },
 
     drawAll: function () {
-        let coinSound = new Audio ();
-        coinSound.src = 'audio/coinSound.mp3';
         this.background.draw();
         this.platform.forEach(platform => platform.draw());
         this.tiles.forEach(tile => tile.draw());
@@ -297,11 +296,12 @@ const Game = {
 
     youWin() {
         clearInterval(this.interval);
-        
         document.getElementById('you-win').setAttribute('class', 'appear');
+        document.getElementById("canvas").style.display = "none"
         document.getElementById('canvas').setAttribute('class', 'hide');
         this.bronzeCoinCollected= false;
         this.silverCoinCollected= false;
         this.goldCoinCollected= false;
+        this.fireballs = this.fireballs.filter(fireball => fireball.posX = 0);
     }
 }

@@ -11,33 +11,36 @@
 </head>
 
 <body>
-    <section id="title-screen">
-        <div>
-            <!-- <button id="str-button" class="btn start-btn">Start Game</button> -->
-            <img src="../Project1/img/background/playButton.png" alt="play button image" id="str-button" class="btn start-btn">
-        </div>
-    </section>
+    <div id="sections-container">
+        <section id="title-screen">
+            <!-- <audio id="title-screen-audio" src="./audio/screensMusic.mp3"></audio> -->
+            <div>
+                <!-- <button id="str-button" class="btn start-btn">Start Game</button> -->
+                <img src="../Project1/img/background/playButton.png" alt="play button image" id="str-button"
+                    class="btn start-btn">
+            </div>
+        </section>
 
-    <section id="game-over">
+        <section id="game-over">
 
-        <div>
-            <!-- <button id="game-over-button" class="btn">Try Again!!</button> -->
-            <img src="../Project1/img/background/tryAgainButton.png" alt="try again button image" id="game-over-button" class="btn start-btn">
-        </div>
-    </section>
+            <div>
+                <!-- <button id="game-over-button" class="btn">Try Again!!</button> -->
+                <img src="../Project1/img/background/tryAgainButton.png" alt="try again button image"
+                    id="game-over-button" class="btn start-btn">
+            </div>
+        </section>
 
-    <section id="you-win">
-        <div>
-            <h1>You Win!!</h1>
-        </div>
-        <div>
-            <!-- <button id="you-win-button" class="btn">Try Again!!</button> -->
-            <img src="../Project1/img/background/completedButton.png" alt="you win button image" id="you-win-button" class="btn start-btn">
-        </div>
-    </section>
+        <section id="you-win">
+            <div>
+                <!-- <button id="you-win-button" class="btn">Try Again!!</button> -->
+                <img src="../Project1/img/background/completedButton.png" alt="you win button image" id="you-win-button"
+                    class="btn start-btn">
+            </div>
+        </section>
+    </div>
 
     <canvas id="canvas"></canvas>
-    
+
     <script src="./js/scoreboard.js"></script>
     <script src="./js/coins.js"></script>
     <script src="./js/objects.js"></script>
@@ -52,4 +55,5 @@
     <script src="./js/game.js"></script>
     <script src="./js/index.js"></script>
 </body>
+
 </html>

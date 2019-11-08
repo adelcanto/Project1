@@ -52,24 +52,34 @@ html {
 
 body {
     height: 100vh;
-    width: 100vw;
+	width: 100vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: row;
 }
-
+#sections-container {
+	/* display: none; */
+	width: 1440px;
+	height: 730px;
+}
 #title-screen {
     display: flex;
     flex-direction: column;
     justify-content: center;
 	align-items: center;
 	height: 100%;
-	background-image: url('../img/background/titleForest.png');
+	background: url('../img/background/titleForest.png')  no-repeat;
+	background-color: black;
 }
 
 #title-screen h1 {
 	font-size: 10rem;
 	font-family: 'Metamorphous', cursive;
 	/* text-align: center; */
-	
 }
+
+
 
 .btn {
 	margin-top: 55rem;
@@ -93,7 +103,7 @@ body {
     justify-content: center;
 	align-items: center;
 	height: 100%;
-	background-image: url('../img/background/gameOver.png');
+	background: url('../img/background/gameOver.png') no-repeat;
 }
 
 #game-over.hide{
@@ -110,10 +120,14 @@ body {
     justify-content: center;
 	align-items: center;
 	height: 100%;
-	background-image: url('../img/background/completedBackground.png');
+	background: url('../img/background/completedBackground.png') no-repeat;
 }
 
 #you-win.hide {
+	display: none;
+}
+
+canvas {
 	display: none;
 }
 
